@@ -1,0 +1,137 @@
+@font-face {
+  font-family: "CustomLogoFont";
+  src: url("/fonts/proxima-nova-5.woff") format("woff"),
+       url("/fonts/proxima-nova-5.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "CustomFormFont";
+  src: url("/fonts/proxima-nova-thin.woff") format("woff"),
+       url("/fonts/proxima-nova-thin.woff2") format("woff2");
+}
+
+html { 
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: "CustomFormFont", sans-serif;
+  overflow: hidden;
+  background-color: rgba(221, 228, 231, 0.852);
+}
+
+.logo-section {
+  position: relative;
+  background-image: url("/img/modern-art.jpg");
+  background-size: cover;
+  width: auto;
+  height: 30vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+span.logo {
+  position: absolute;
+  background-image: url("/img/logo.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  left: 55px;
+  top: 102px;
+}
+
+.logo-section > div {
+  background-color: rgba(247, 247, 247, 0.422);
+  width: 100%;
+  text-align: center;
+  font-family: "CustomLogoFont";
+  font-size: clamp(2.2rem, 8vw, 3rem);
+  font-weight: bold;
+}
+
+body > h1 {
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+  gap: 20px;
+}
+
+form div > label {
+  display: block;
+}
+
+form > div > label {
+  margin-bottom: 2px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+input {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #d6d5d5;
+  border-radius: 4px;
+  outline: none;
+  font-family: "CustomFormFont", sans-serif;
+  font-size: 16px;
+}
+
+button[type="submit"] {
+  background-color: rgba(236, 233, 210, 0.764);
+  font-family: "CustomFormFont", sans-serif;
+  width: 100%;
+  font-size: 16px;
+  font-weight: bolder;
+  border-radius: 4px;
+  height: 40px;
+  border: none;
+  margin-top: 10px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  padding: 0 20px;
+  outline: none;
+}
+
+button[type=submit]:hover {
+  background-color: rgba(241, 236, 180, 0.764);
+}
+
+button[type=submit]:active {
+  background-color: rgba(241, 232, 135, 0.764);
+}
+
+body > p {
+  text-align: center;
+  font-size: 1rem;
+  margin-top: 30px;
+}
+
+span a[href="#"] {
+  text-decoration: none;
+  color: green;
+  font-weight: bold;
+}
+
+span a[href="#"]:visited {
+  color: blue;
+}
