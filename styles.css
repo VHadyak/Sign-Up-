@@ -10,6 +10,8 @@
        url("/fonts/proxima-nova-thin.woff2") format("woff2");
 }
 
+/*TODO: Pass requirements need special font size for responsiveness
+
 /* Mobile first approach */
 html { 
   box-sizing: border-box;
@@ -31,7 +33,6 @@ body {
   min-height: 100vh;                 /* Fallback */
   min-height: 100dvh;            
   font-family: "CustomFormFont", sans-serif;
-  overflow: hidden;
   background-color: rgba(221, 228, 231, 0.852);
 }
 
@@ -158,13 +159,13 @@ input::placeholder {
 
 button[type="submit"] {
   background-color: rgba(227, 229, 224, 0.997);
+  border: 1px solid rgba(0, 0, 0, 0.234);
   font-family: "CustomFormFont", sans-serif;
   width: 100%;
   font-size: clamp(1rem, 1.3vw, 1.4rem);
   font-weight: bolder;
   border-radius: 4px;
   height: 40px;
-  border: none;
   margin-top: 30px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.25);
   cursor: pointer;
@@ -198,6 +199,206 @@ span a[href="#"] {
   color: blue;
 } */
 
+/* FORM VALIDATION */
+
+.first-name-error {
+  padding-top: 2px;
+  display: none;
+  position: absolute;
+}
+
+.last-name-error {
+  padding-top: 2px;
+  display: none;
+  position: absolute;
+}
+
+/* Phone number error style */
+span.phone-error {
+  display: none;
+}
+
+/* Enables select highlighting when placeholder is shown (tel input) */
+input:not(:required):placeholder-shown:focus {
+  border: 1px solid rgb(31, 40, 194);
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+}
+
+/* Removes select highlighting when something is typed in input (tel input) */
+input:not(:required):valid:focus:not(:placeholder-shown) {
+  border: 1px solid green;
+  box-shadow: none
+}
+
+/* Make border red when invalid phone number format is entered and only in focus mode */
+input:not(:required):invalid:focus:not(:placeholder-shown) {
+  border: 1px solid red;
+  box-shadow: none;
+}
+
+/* Display error message */
+input:not(:required):invalid:focus:not(:placeholder-shown) + span.phone-error {
+  position: absolute;
+  display: block;
+  color: rgb(170, 13, 13);
+  padding-top: 2px; 
+}
+
+/* Remove automatic highlighter (default) */
+input:not(:required):valid {
+  border: 1px solid #bab8b8;;
+  box-shadow: none;
+}
+
+input:focus {
+  border: 1px solid rgb(31, 40, 194);
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+}
+
+/* Removes green highlighter from pass input and tel input when not all requirements were met */
+input:valid:not(input[type="password"]):not(input[type="tel"]) {
+  border: 1px solid green;
+  box-shadow: none;
+}
+
+/* Email error style */
+
+/* Default state */
+span.email-error {
+  display: none;
+  padding-top: 2px;
+  color: rgb(170, 13, 13);
+  position: absolute;
+}
+
+.error-style {
+  font-size: clamp(0.6rem, 1vw, 1.0rem);
+  color: rgb(31, 2, 59);
+}
+
+/* Display error message */
+input[type="email"]:invalid:not(:focus):not(:placeholder-shown) + span.email-error,
+input[type="email"]:invalid:focus:not(:placeholder-shown) + span.email-error {
+  position: absolute;             /* Allows for input itself to not be displaced */
+  display: block;
+  color: rgb(170, 13, 13);
+  padding-top: 2px;                
+}
+
+/* Make border red when email input has invalid format, at least 1 character, and out of focus */
+input[type="email"]:invalid:not(:placeholder-shown):not(:focus) {
+  border: 1px solid red;
+  box-shadow: none;
+}
+
+input[type="email"]:invalid:not(:placeholder-shown):focus {
+  border: 1px solid red;
+  box-shadow: none;
+}
+
+/* Password error style */
+.password-requirements {
+  display: none;
+  position: relative;
+}
+
+span.pass-match-error {
+  display: none;
+  position: absolute;
+}
+
+.pass-message {
+  display: none;
+  position: absolute;
+}
+
+.border-valid {
+  border: 1px solid green;
+  box-shadow: none;
+}
+
+.border-invalid {
+  border: 1px solid red;
+  box-shadow: none;
+}
+
+.border-valid:focus {
+  border: 1px solid green;
+  box-shadow: none;
+}
+
+.border-invalid:focus {
+  border: 1px solid red;
+  box-shadow: none;
+}
+
+.pass-valid {
+  color: green;
+}
+
+.pass-invalid {
+  color: red;
+}
+
+input[type="password"]#confirm-pass:not(:focus) ~ span.pass-match-error,
+input[type="password"]#confirm-pass:focus ~ span.pass-match-error {
+  color: rgb(170, 13, 13);
+  padding-top: 2px; 
+}
+
+.password-disabled {
+  background-color: #cccaca3b; 
+  opacity: 1; 
+  color: #888; 
+  cursor: not-allowed;
+}
+
+/* Display the requirements when in focus state */
+input[type="password"]#password:focus + .password-requirements {
+  display: block;
+  padding-top: 2px;
+}
+
+input[type="password"]#password:not(:focus) ~ span.pass-message {
+  color: rgb(170, 13, 13);
+  padding-top: 2px;
+}
+
+.col-1,
+.col-2 {
+  display: flex;
+  flex-direction: column;
+  padding-top: 2px;
+  row-gap: 2px;
+}
+
+.col-1 .pass-valid::after,
+.col-2 .pass-valid::after {
+  content: "\2713";
+  color: green;
+  position: relative;
+  left: 4px;
+  bottom: -1px;
+}
+
+.col-1 .pass-invalid::after,
+.col-2 .pass-invalid::after {
+  content: "x";
+  color: red;
+  position: relative;
+  left: 4px;
+  bottom: 0;
+}
+
+
+
+/* On Chrome prevent the background color change on auto-fill */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
 
 /* Media query for desktop version */
 @media screen and (min-width: 768px) {
@@ -206,6 +407,7 @@ span a[href="#"] {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    position: relative;
   }
 
   /* Hero */
@@ -247,14 +449,25 @@ span a[href="#"] {
 
   /* "Sign-Up" heading */
   .content-container h1 {
-    padding: 30px 20px;
+    display: flex;
+    padding: 30px 50px;
+    margin-bottom: -20px;
+  }
+
+  form div.inputs > div > label {
+    margin-bottom: 3px;
   }
 
   form {
     width: 60vw;
-    height: 30vh;
     display: flex;
     align-items: flex-start;
+  }
+
+  .content-container {
+    height: 30vh;
+    position: relative;
+    top: -190px;
   }
 
   /* Input text-boxes wrap (no submit button) */              
@@ -264,10 +477,11 @@ span a[href="#"] {
     flex-direction: row;
     flex-wrap: wrap;                              /* Allow flex items to wrap into multiple rows */
     justify-content: flex-start;
-    padding: 40px 50px;
+    align-items: center;
+    padding: 80px 50px;
     background-color: rgb(233, 239, 239);
     box-shadow: 0 10px 15px 1px rgba(0, 0, 0, 0.2);
-    column-gap: 60px;
+    column-gap: 90px;
     row-gap: 30px;
   }
 
@@ -288,11 +502,78 @@ span a[href="#"] {
   form div.inputs + div {
     padding: 0 0 0 50px;
     margin-top: 10px;
+    position: relative;
   }
 
   /* "Log in" section */
   .content-container  p {
-    padding: 35px 0 0 50px;
+    padding: 0 0 0 50px;
     text-align: start;
+  }
+
+  span.email-error {
+    padding-top: 3px;
+    position: absolute;
+  }
+
+  .password-requirements {
+    position: absolute;
+  }
+
+  .col-1,
+  .col-2 {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    row-gap: 5px;
+  }
+
+  /* (email) */
+  input[type="email"]:invalid:not(:focus):not(:placeholder-shown) + span.email-error,
+  input[type="email"]:invalid:focus:not(:placeholder-shown) + span.email-error {
+    padding-top: 3px;                
+  }
+
+  /* (phone number) */
+  input:not(:required):invalid:focus:not(:placeholder-shown) + span.phone-error {
+    padding-top: 3px; 
+  }
+
+  /* (password) */
+  input[type="password"]#password:not(:focus) ~ span.pass-message {
+    padding-top: 3px;
+  }
+
+   /* Display the requirements when in focus state */
+   input[type="password"]#password:focus + .password-requirements {
+    padding-top: 5px;
+    display: flex;
+    flex-direction: row;
+    column-gap: 25px;
+    height: 70px;
+  }
+
+  /* (confirm password) */
+  input[type="password"]#confirm-pass:focus ~ span.pass-match-error, 
+  input[type="password"]#confirm-pass:not(:focus) ~ span.pass-match-error {
+    padding-top: 3px;
+  } 
+  
+  .col-1 .pass-valid::after,
+  .col-2 .pass-valid::after {
+    content: "\2713";
+    color: green;
+    position: relative;
+    left: 4px;
+    bottom: -1px;
+  }
+  
+  .col-1 .pass-invalid::after,
+  .col-2 .pass-invalid::after {
+    content: "x";
+    color: red;
+    position: relative;
+    left: 4px;
+    bottom: 0;
   }
 }

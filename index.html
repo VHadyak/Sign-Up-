@@ -5,6 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
   <title>Sign-Up Form</title>
 </head>
 <body>
@@ -21,27 +22,44 @@
       <div class="inputs">
         <div>
           <label for="first-name">First Name</label>
-          <input type="text" id="first-name" name="first-name" required>
+          <input type="text" id="first-name" name="first-name" pattern="^(?=.{2,50}$)[a-zA-Z]+(?:['_.\s][a-zA-Z]+)*$" required>
+          <span class="first-name-error error-style">Name contains invalid characters</span>
         </div>
         <div>
           <label for="last-name">Last Name</label>
-          <input type="text" id="last-name" name="last-name" required>
+          <input type="text" id="last-name" name="last-name" pattern="^(?=.{2,50}$)[a-zA-Z]+(?:['_.\s][a-zA-Z]+)*$" required>
+          <span class="last-name-error error-style">Name contains invalid characters</span>
         </div>
         <div>
           <label for="email">Email</label>
-          <input type="email" id="email" name="email" required placeholder="example@gmail.com">
+          <input type="email" id="email" name="email" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" required placeholder="example@gmail.com">
+          <span class="email-error error-style">Please enter a valid email address</span>
         </div>
         <div>
           <label for="phone-num">Phone Number <span>(optional)</span></label>
-          <input type="tel" id="phone-num" name="phone-num">
+          <input type="tel" id="phone-num" name="phone-num" pattern="\d{3}-\d{3}-\d{4}" placeholder="xxx-xxx-xxxx" autocomplete="nope">
+          <span class="phone-error error-style">Please enter a 10-digit phone number</span>
         </div>
-        <div>
+        <div class="pass-section">
           <label for="password">Password</label>
           <input type="password" id="password" name="password" required>
+          <div class="password-requirements">
+            <div class="col-1">
+              <span class ="pass-error error-style min-length">Minimum length (8 characters)</span>
+              <span class ="pass-error error-style one-upper-case">At least 1 uppercase letter</span>
+              <span class ="pass-error error-style one-lower-case">At least 1 lowercase letter</span>
+            </div>
+            <div class="col-2">
+              <span class ="pass-error error-style one-symbol">At least 1 symbol</span>
+              <span class ="pass-error error-style one-num">At least 1 number</span>
+            </div>
+          </div>
+          <span class ="pass-error error-style pass-message">Meet all password requirements</span> 
         </div>
         <div>
           <label for="confirm-pass">Confirm Password</label>
           <input type="password" id="confirm-pass" name="confirm-password" required>
+          <span class="pass-match-error error-style">Passwords do not match</span>
         </div>
       </div>
       <div>
