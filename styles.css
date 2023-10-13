@@ -390,7 +390,13 @@ input[type="password"]#password:not(:focus) ~ span.pass-message {
   bottom: 0;
 }
 
-
+.error-style:not(.password-requirements span)::after {
+  content: "⚠";
+  font-size: clamp(0.5rem, 1vw, 0.7rem);
+  position: relative;
+  left: 1%;
+  bottom: -1px;
+}
 
 /* On Chrome prevent the background color change on auto-fill */
 input:-webkit-autofill,
@@ -482,7 +488,7 @@ input:-webkit-autofill:active {
     background-color: rgb(233, 239, 239);
     box-shadow: 0 10px 15px 1px rgba(0, 0, 0, 0.2);
     column-gap: 90px;
-    row-gap: 30px;
+    row-gap: 35px;
   }
 
   input {
