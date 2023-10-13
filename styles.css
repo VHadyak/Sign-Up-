@@ -396,6 +396,9 @@ input[type="password"]#password:not(:focus) ~ span.pass-message {
   position: relative;
   left: 1%;
   bottom: -1px;
+
+  transition: transform 0.2s;
+  transform-origin: center;
 }
 
 /* On Chrome prevent the background color change on auto-fill */
@@ -404,6 +407,16 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+.shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); } /* Further reduced intensity */
+  20%, 40%, 60%, 80% { transform: translateX(2px); }
 }
 
 /* Media query for desktop version */

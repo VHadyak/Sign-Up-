@@ -16,6 +16,8 @@ const emailError = document.querySelector(".email-error");
 const passError = document.querySelector(".pass-message");
 const passMatchError = document.querySelector(".pass-match-error");
 
+const errorMessages = document.querySelectorAll(".error-style:not(.password-requirements span):not(.phone-error)");
+
 const minLength = document.querySelector(".min-length");
 const oneUpperCase = document.querySelector(".one-upper-case");
 const oneLowerCase = document.querySelector(".one-lower-case");
@@ -290,6 +292,17 @@ submitBtn.addEventListener("click", (e) => {
   };
 
   e.preventDefault();
+
+   //Shake on 2nd click when errors are visible
+  if (submitClicked) {
+    errorMessages.forEach((element) => {
+      element.classList.add('shake');
+      
+      element.addEventListener('animationend', () => {
+        element.classList.remove('shake');
+      });
+    });
+  };
 
   submitClicked = true;
 });
