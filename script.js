@@ -1,4 +1,6 @@
 
+// Validation styling 
+
 const myForm = document.querySelector("form");
 
 const passInput = document.querySelector("#password"); 
@@ -300,7 +302,6 @@ firstName.addEventListener("blur", () => {
   } else {
     firstName.style.border = "1px solid #bab8b8";
     firstNameError.style.display = "none";
-   
   };
 
   if (submitClicked) {
@@ -313,6 +314,15 @@ firstName.addEventListener("blur", () => {
       firstName.style.boxShadow = "none";
       firstNameError.style.display = "block";
       firstNameError.style.color = "rgb(170, 13, 13)";
+    };
+  } else {
+    if (!firstLastNamePattern.test(firstNameValue)) {
+      if (firstNameValue.length >= 1) {
+        firstName.style.border = "1px solid red";
+        firstName.style.boxShadow = "none";
+        firstNameError.style.display = "block";
+        firstNameError.style.color = "rgb(170, 13, 13)";
+      };
     };
   };
 });
@@ -338,50 +348,103 @@ lastName.addEventListener("blur", () => {
       lastNameError.style.color = "rgb(170, 13, 13)";
       lastNameError.style.display = "block";
     };
+  } else {
+    if (!firstLastNamePattern.test(lastNameValue)) {
+      if (lastNameValue.length >= 1) {
+        lastName.style.border = "1px solid red";
+        lastName.style.boxShadow = "none";
+        lastNameError.style.color = "rgb(170, 13, 13)";
+        lastNameError.style.display = "block";
+      };
+    };
   };
 });
 
 firstName.addEventListener("input", () => {
   const firstNameValue = firstName.value;
 
-  if (firstNameValue.length >= 1) {
-    firstNameError.style.display = "none";
-    firstName.style.border = "1px solid green";
+  if (submitClicked) {
+    if (firstLastNamePattern.test(firstNameValue)) {
+      firstName.style.border = "1px solid green";
+      firstName.style.boxShadow = "none";
+      firstNameError.style.display = "none";
+    } else {
+      firstName.style.border = "1px solid red";
+      firstName.style.boxShadow = "none";
+      firstNameError.style.display = "block";
+      firstNameError.style.color = "rgb(170, 13, 13)";
+      if (firstNameValue.length === 1 && /^[A-Za-z]+$/.test(firstNameValue)) {
+        firstNameError.textContent = "Must contain at least 2 letters";
+      } else {
+        firstNameError.textContent = "Name contains invalid characters";
+      };
+    };
   } else {
-    firstName.style.border = "1px solid blue";
-  };
+    if (firstNameValue.length < 1) {
+      firstName.style.border = "1px solid blue";
+      firstNameError.style.display = "none";
+    } else {
+      if (firstLastNamePattern.test(firstNameValue)) {
+        firstName.style.border = "1px solid green";
+        firstName.style.boxShadow = "none";
+        firstNameError.style.display = "none";
+      } else {
+        firstName.style.border = "1px solid red";
+        firstName.style.boxShadow = "none";
+        firstNameError.style.display = "block";
+        firstNameError.style.color = "rgb(170, 13, 13)";
+      };
+    };
 
-  if (firstLastNamePattern.test(firstNameValue)) {
-    firstName.style.border = "1px solid green";
-    firstName.style.boxShadow = "none";
-    firstNameError.style.display = "none";
-  } else {
-    firstName.style.border = "1px solid red";
-    firstName.style.boxShadow = "none";
-    firstNameError.style.color = "rgb(170, 13, 13)";
-    firstNameError.style.display = "block";
+    if (firstNameValue.length === 1 && /^[A-Za-z]+$/.test(firstNameValue)) {
+      firstNameError.textContent = "Must contain at least 2 letters";
+    } else {
+      firstNameError.textContent = "Name contains invalid characters";
+    };
   };
 });
 
 lastName.addEventListener("input", () => {
   const lastNameValue = lastName.value;
 
-  if (lastNameValue.length >= 1) {
-    lastNameError.style.display = "none";
-    lastName.style.border = "1px solid green";
+  if (submitClicked) {
+    if (firstLastNamePattern.test(lastNameValue)) {
+      lastName.style.border = "1px solid green";
+      lastName.style.boxShadow = "none";
+      lastNameError.style.display = "none";
+    } else {
+      lastName.style.border = "1px solid red";
+      lastName.style.boxShadow = "none";
+      lastNameError.style.color = "rgb(170, 13, 13)";
+      lastNameError.style.display = "block";
+      if (lastNameValue.length === 1 && /^[A-Za-z]+$/.test(lastNameValue)) {
+        lastNameError.textContent = "Must contain at least 2 letters";
+      } else {
+        lastNameError.textContent = "Name contains invalid characters";
+      };
+    };
   } else {
-    lastName.style.border = "1px solid blue";
-  };
+    if (lastNameValue.length < 1) {
+      lastName.style.border = "1px solid blue";
+      lastNameError.style.display = "none";
+    } else {
+      if (firstLastNamePattern.test(lastNameValue)) {
+        lastName.style.border = "1px solid green";
+        lastName.style.boxShadow = "none";
+        lastNameError.style.display = "none";
+      } else {
+        lastName.style.border = "1px solid red";
+        lastName.style.boxShadow = "none";
+        lastNameError.style.color = "rgb(170, 13, 13)";
+        lastNameError.style.display = "block";
+      };
+    };
 
-  if (firstLastNamePattern.test(lastNameValue)) {
-    lastName.style.border = "1px solid green";
-    lastName.style.boxShadow = "none";
-    lastNameError.style.display = "none";
-  } else {
-    lastName.style.border = "1px solid red";
-    lastName.style.boxShadow = "none";
-    lastNameError.style.color = "rgb(170, 13, 13)";
-    lastNameError.style.display = "block";
+    if (lastNameValue.length === 1 && /^[A-Za-z]+$/.test(lastNameValue)) {
+      lastNameError.textContent = "Must contain least 2 letters";
+    } else {
+      lastNameError.textContent = "Name contains invalid characters";
+    };
   };
 });
 
@@ -404,10 +467,18 @@ firstName.addEventListener("focus", () => {
     if (firstNameValue.length < 1) {
       firstName.style.border = "1px solid blue";
     } else {
-      firstName.style.border = "1px solid green";
+      if (firstLastNamePattern.test(firstNameValue)) {
+        firstName.style.border = "1px solid green";
+        firstName.style.boxShadow = "none";
+        firstNameError.style.display = "none";
+      } else {
+        firstName.style.border = "1px solid red";
+        firstName.style.boxShadow = "none";
+        firstNameError.style.display = "block";
+        firstNameError.style.color = "rgb(170, 13, 13)";
+      };
     };
   };
- 
 });
 
 lastName.addEventListener("focus", () => {
@@ -427,10 +498,17 @@ lastName.addEventListener("focus", () => {
   } else {
     if (lastNameValue.length < 1) {
       lastName.style.border = "1px solid blue";
-      lastName.style.boxShadow = "none";
     } else {
-      lastName.style.border = "1px solid green";
-      lastName.style.boxShadow = "none";
+      if (firstLastNamePattern.test(lastNameValue)) {
+        lastName.style.border = "1px solid green";
+        lastName.style.boxShadow = "none";
+        lastNameError.style.display = "none";
+      } else {
+        lastName.style.border = "1px solid red";
+        lastName.style.boxShadow = "none";
+        lastNameError.style.color = "rgb(170, 13, 13)";
+        lastNameError.style.display = "block";
+      };
     };
   };
 });
