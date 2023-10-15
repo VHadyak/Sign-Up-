@@ -1,8 +1,9 @@
-
-// Validation styling 
+// Client-side validation
+// Created by Vlad Hadyak
 
 const myForm = document.querySelector("form");
 
+// Input variables
 const passInput = document.querySelector("#password"); 
 const confirmPassInput = document.querySelector("#confirm-pass"); 
 const emailInput = document.querySelector("#email");
@@ -10,36 +11,225 @@ const firstName = document.querySelector("#first-name");
 const lastName = document.querySelector("#last-name");
 const phoneInput = document.querySelector("#phone-num");
 
+// Error variables
 const firstNameError = document.querySelector(".first-name-error");
 const lastNameError = document.querySelector(".last-name-error");
 const emailError = document.querySelector(".email-error");
 const passError = document.querySelector(".pass-message");
 const passMatchError = document.querySelector(".pass-match-error");
 
+// All input error messages (except tel input)
 const errorMessages = document.querySelectorAll(".error-style:not(.password-requirements span):not(.phone-error)");
 
+// Password requirements variables
 const minLength = document.querySelector(".min-length");
 const oneUpperCase = document.querySelector(".one-upper-case");
 const oneLowerCase = document.querySelector(".one-lower-case");
 const oneSymbol = document.querySelector(".one-symbol");
 const oneNum = document.querySelector(".one-num");
 
-let isValid = false;          // Status if all requirements are met or not
+let isValid = false;                   // Status if all password requirements are met or not
 let passwordValue = "";
 let submitClicked = false;
 
 const submitBtn = document.querySelector("button[type=submit]");
 
-// Password requirements
+// Regex patterns for password requirements
 const minLengthPattern = /^.{8,}$/;
 const oneUpperCasePattern = /[A-Z]/;
 const oneLowerCasePattern = /[a-z]/;
 const oneSymbolPattern = /[@#$!%^&*]/;
 const oneNumPattern = /\d/;
 
+// Regex for email, first and last names
 const emailRegexPattern = /[^@\s]+@[^@\s]+\.[^@\s]+/;
 const firstLastNamePattern = /^(?=.{2,50}$)[a-z]+(?:['_.\s][a-z]+)*$/i;
 
+firstName.addEventListener("blur", () => {
+  const firstNameValue = firstName.value;
+
+  if (firstNameValue.length >= 1) {
+    firstNameError.style.display = "none";
+  } else {
+    firstName.style.border = "1px solid #bab8b8";
+    firstNameError.style.display = "none";
+  };
+
+  if (submitClicked) {
+    if (firstLastNamePattern.test(firstNameValue)) {
+      validHandler(firstName, firstNameError);
+    } else {
+      errorHandler(firstName, firstNameError);
+    };
+  } else {
+    if (!firstLastNamePattern.test(firstNameValue)) {
+      if (firstNameValue.length >= 1) {
+        errorHandler(firstName, firstNameError);
+      };
+    };
+  };
+});
+
+lastName.addEventListener("blur", () => {
+  const lastNameValue = lastName.value;
+
+  if (lastNameValue.length >= 1) {
+    lastNameError.style.display = "none";
+  } else {
+    lastName.style.border = "1px solid #bab8b8";
+    lastNameError.style.display = "none";
+  };
+
+  if (submitClicked) {
+    if (firstLastNamePattern.test(lastNameValue)) {
+      validHandler(lastName, lastNameError);
+    } else {
+      errorHandler(lastName, lastNameError);
+    };
+  } else {
+    if (!firstLastNamePattern.test(lastNameValue)) {
+      if (lastNameValue.length >= 1) {
+        errorHandler(lastName, lastNameError);
+      };
+    };
+  };
+});
+
+firstName.addEventListener("input", () => {
+  const firstNameValue = firstName.value;
+
+  if (submitClicked) {
+    if (firstLastNamePattern.test(firstNameValue)) {
+      validHandler(firstName, firstNameError);
+    } else {
+      errorHandler(firstName, firstNameError);
+      if (firstNameValue.length === 1 && /^[A-Za-z]+$/.test(firstNameValue)) {
+        firstNameError.textContent = "Must contain at least 2 letters";
+      } else {
+        firstNameError.textContent = "Name contains invalid characters";
+      };
+    };
+  } else {
+    if (firstNameValue.length < 1) {
+      firstName.style.border = "1px solid blue";
+      firstNameError.style.display = "none";
+    } else {
+      if (firstLastNamePattern.test(firstNameValue)) {
+        validHandler(firstName, firstNameError);
+      } else {
+        errorHandler(firstName, firstNameError);
+      };
+    };
+
+    if (firstNameValue.length === 1 && /^[A-Za-z]+$/.test(firstNameValue)) {
+      firstNameError.textContent = "Must contain at least 2 letters";
+    } else {
+      firstNameError.textContent = "Name contains invalid characters";
+    };
+  };
+});
+
+lastName.addEventListener("input", () => {
+  const lastNameValue = lastName.value;
+
+  if (submitClicked) {
+    if (firstLastNamePattern.test(lastNameValue)) {
+      validHandler(lastName, lastNameError);
+    } else {
+      errorHandler(lastName, lastNameError);
+      if (lastNameValue.length === 1 && /^[A-Za-z]+$/.test(lastNameValue)) {
+        lastNameError.textContent = "Must contain at least 2 letters";
+      } else {
+        lastNameError.textContent = "Name contains invalid characters";
+      };
+    };
+  } else {
+    if (lastNameValue.length < 1) {
+      lastName.style.border = "1px solid blue";
+      lastNameError.style.display = "none";
+    } else {
+      if (firstLastNamePattern.test(lastNameValue)) {
+        validHandler(lastName, lastNameError);
+      } else {
+        errorHandler(lastName, lastNameError);
+      };
+    };
+
+    if (lastNameValue.length === 1 && /^[A-Za-z]+$/.test(lastNameValue)) {
+      lastNameError.textContent = "Must contain least 2 letters";
+    } else {
+      lastNameError.textContent = "Name contains invalid characters";
+    };
+  };
+});
+
+firstName.addEventListener("focus", () => {
+  const firstNameValue = firstName.value;
+
+  if (submitClicked) {
+    if (firstLastNamePattern.test(firstNameValue)) {
+      validHandler(firstName, firstNameError);
+    } else {
+      errorHandler(firstName, firstNameError);
+    };
+  } else {
+    if (firstNameValue.length < 1) {
+      firstName.style.border = "1px solid blue";
+    } else {
+      if (firstLastNamePattern.test(firstNameValue)) {
+        validHandler(firstName, firstNameError);
+      } else {
+        errorHandler(firstName, firstNameError);
+      };
+    };
+  };
+  firstNameError.classList.remove('shake');
+});
+
+lastName.addEventListener("focus", () => {
+  const lastNameValue = lastName.value;
+
+  if (submitClicked) {
+    if (firstLastNamePattern.test(lastNameValue)) {
+      validHandler(lastName, lastNameError);
+    } else {
+      errorHandler(lastName, lastNameError);
+    };
+  } else {
+    if (lastNameValue.length < 1) {
+      lastName.style.border = "1px solid blue";
+    } else {
+      if (firstLastNamePattern.test(lastNameValue)) {
+        validHandler(lastName, lastNameError);
+      } else {
+        errorHandler(lastName, lastNameError);
+      };
+    };
+  };
+  lastNameError.classList.remove('shake');
+});
+
+emailInput.addEventListener("input", () => {
+  const emailValue = emailInput.value;
+  if (submitClicked) {
+    if (emailRegexPattern.test(emailValue)) {
+      validHandler(emailInput, emailError);
+    } else {
+      if (emailValue.length >= 1) {
+        errorHandler(emailInput, emailError);
+      } else {
+        emailInput.style.border = "1px solid red";
+      };
+    };
+  };
+});
+
+emailInput.addEventListener("focus", () => {
+  if (submitClicked) {
+    emailInput.style.boxShadow = "none";
+  };
+  emailError.classList.remove('shake');
+});
 
 // Allow only digit numbers to be typed
 phoneInput.addEventListener("keydown", (e) => {
@@ -47,7 +237,7 @@ phoneInput.addEventListener("keydown", (e) => {
   const letterPattern = /^[a-zA-Z]$/;
 
   if (letterPattern.test(key)) {
-    e.preventDefault();                  // Prevents from typing it
+    e.preventDefault();                // Prevents from typing it
   };
 });
 
@@ -70,26 +260,27 @@ phoneInput.addEventListener("input", () => {
   phoneInput.value = formattedValue;
 });
 
-// Store a clean numeric value of phone number, without hyphens
+// Store a clean numeric value of phone number, without hyphens (when submitting a form)
 function removeHyphens() {
   const initialInput = phoneInput.value;
   const numericValue = initialInput.replace(/-/g, "");
   phoneInput.value = numericValue;
 };
 
-confirmPassInput.addEventListener("focus", () => {
-  if (submitClicked) {
-    confirmPassInput.style.boxShadow = "none";
-  };
-});
-
-// Out of focus state
+// Out of focus state (password input)
 passInput.addEventListener("blur", () => {
   passwordValue = passInput.value;
 
   if (passwordValue.length < 1) {
     passInput.style.border = "1px solid #bab8b8"; 
-    resetLabelColors();
+    if (!submitClicked) {
+      resetLabelColors();
+      minLength.classList.remove("pass-invalid");
+      oneLowerCase.classList.remove("pass-invalid");
+      oneUpperCase.classList.remove("pass-invalid");
+      oneSymbol.classList.remove("pass-invalid");
+      oneNum.classList.remove("pass-invalid");
+    };
   } else {
     if (isValid) {
       passError.style.display = "none";
@@ -101,8 +292,7 @@ passInput.addEventListener("blur", () => {
 
   if (submitClicked) {
     if (passwordValue.length < 1) {
-      passInput.style.border = "1px solid red";
-      passError.style.display = "block";
+      errorHandler(passInput, passError);
     }; 
   };
 });     
@@ -110,19 +300,47 @@ passInput.addEventListener("blur", () => {
 // In focus state
 passInput.addEventListener("focus", () => {
   passwordValue = passInput.value;
-  if (passwordValue.length < 1) {
+  if (passwordValue.length < 1 && !submitClicked) {
     passInput.style.border = "1px solid blue";
   } else if (passwordValue.length >= 1 || passwordValue.length < 1) {
     passError.style.display = "none";
   };
 
+  if (passwordValue.length < 1 && submitClicked) {
+    const passRequirements = [minLength, oneLowerCase, oneUpperCase, oneSymbol, oneNum];
+
+    passRequirements.forEach((element) => {
+      element.classList.add("pass-invalid");
+      element.style.color = "red";
+    });
+  };
+
   if (submitClicked) {
     passError.style.display = "none";
   };
+  passError.classList.remove('shake');
 });
+
+// Validate all password requirements
+function validatePassword(element, pattern) {
+  if (pattern.test(passwordValue)) {
+    element.classList.add("pass-valid");
+    element.classList.remove("pass-invalid");
+    if (passwordValue.length >= 1) {
+      element.style.color = "green";
+    };
+  } else {
+    element.classList.add("pass-invalid");
+    element.classList.remove("pass-valid");
+    if (passwordValue.length >= 1 || passwordValue.length < 1) {
+      element.style.color = "red";
+    };
+  };
+};
 
 passInput.addEventListener("input", () => {
   passwordValue = passInput.value;
+  const inputValue = confirmPassInput.value;
 
   const allRequirementsMet = 
     minLengthPattern.test(passwordValue) &&
@@ -131,7 +349,7 @@ passInput.addEventListener("input", () => {
     oneSymbolPattern.test(passwordValue) &&
     oneNumPattern.test(passwordValue);
 
-  // If all requirements are met
+  // If all requirements are met for password
   if (allRequirementsMet) {
     passInput.style.border = "1px solid green";
     passInput.classList.remove("border-invalid");
@@ -150,150 +368,107 @@ passInput.addEventListener("input", () => {
     confirmPassInput.disabled = true;
   };
 
+  // If both valid but then password input becomes invalid ...
+  if (inputValue.length >= 8 && passwordValue !== inputValue) {
+    confirmPassInput.style.border = "1px solid red";
+    passMatchError.style.display = "block";
+    passMatchError.classList.remove("shake");
+  } else if (isValid) {
+    if (passwordValue === inputValue) {
+      confirmPassInput.style.border = "1px solid green";
+      passMatchError.style.display = "none";
+    };
+  };
   
-  if (minLengthPattern.test(passwordValue)) {
-    minLength.classList.add("pass-valid");
-    minLength.classList.remove("pass-invalid");
-    if (passwordValue.length >= 1) {
-      minLength.style.color = "green";
-    };
-  } else {
-    minLength.classList.add("pass-invalid");
-    minLength.classList.remove("pass-valid");
-    if (passwordValue.length >= 1 || passwordValue.length < 1) {
-      minLength.style.color = "red";
-    };
-  };
-
-  if (oneUpperCasePattern.test(passwordValue)) {
-    oneUpperCase.classList.add("pass-valid");
-    oneUpperCase.classList.remove("pass-invalid");
-    if (passwordValue.length >= 1) {
-      oneUpperCase.style.color = "green";
-    };
-  } else {
-    oneUpperCase.classList.add("pass-invalid");
-    oneUpperCase.classList.remove("pass-valid");
-    if (passwordValue.length >= 1 || passwordValue.length < 1) {
-      oneUpperCase.style.color = "red";
-    };
-  };
-
-  if (oneLowerCasePattern.test(passwordValue)) {
-    oneLowerCase.classList.add("pass-valid");
-    oneLowerCase.classList.remove("pass-invalid");
-    if (passwordValue.length >= 1) {
-      oneLowerCase.style.color = "green";
-    };
-  } else {
-    oneLowerCase.classList.add("pass-invalid");
-    oneLowerCase.classList.remove("pass-valid");
-    if (passwordValue.length >= 1 || passwordValue.length < 1) {
-      oneLowerCase.style.color = "red";
-    };
-  };
-
-  if (oneSymbolPattern.test(passwordValue)) {
-    oneSymbol.classList.add("pass-valid");
-    oneSymbol.classList.remove("pass-invalid");
-    if (passwordValue.length >= 1) {
-      oneSymbol.style.color = "green";
-    };
-  } else {
-    oneSymbol.classList.add("pass-invalid");
-    oneSymbol.classList.remove("pass-valid");
-    if (passwordValue.length >= 1 || passwordValue.length < 1) {
-      oneSymbol.style.color = "red";
-    };
-  };
-
-  if (oneNumPattern.test(passwordValue)) {
-    oneNum.classList.add("pass-valid");
-    oneNum.classList.remove("pass-invalid");
-    if (passwordValue.length >= 1) {
-      oneNum.style.color = "green";
-    };
-  } else {
-    oneNum.classList.add("pass-invalid");
-    oneNum.classList.remove("pass-valid");
-    if (passwordValue.length >= 1 || passwordValue.length < 1) {
-      oneNum.style.color = "red";
-    };
-  };
+  validatePassword(minLength, minLengthPattern);
+  validatePassword(oneUpperCase, oneUpperCasePattern);
+  validatePassword(oneLowerCase, oneLowerCasePattern);
+  validatePassword(oneSymbol, oneSymbolPattern);
+  validatePassword(oneNum, oneNumPattern);
 });
 
-// Confirm if passwords match
+confirmPassInput.addEventListener("focus", () => {
+  const inputValue = confirmPassInput.value;
+  if (submitClicked) {
+    confirmPassInput.style.boxShadow = "none";
+  };
+
+  if (!isValid) {
+    if (passwordValue.length < 1) {
+      confirmPassInput.classList.add("password-disabled");
+      confirmPassInput.disabled = true;
+    };
+  };
+
+  if (inputValue.length < 1 && !submitClicked && isValid) {
+    confirmPassInput.style.border = "1px solid blue";
+  };
+
+  passMatchError.classList.remove('shake');
+});
+
+// Confirm if passwords match (out of focus)
 confirmPassInput.addEventListener("blur", () => {
   const inputValue = confirmPassInput.value;
   if (isValid) {
-    if (passwordValue !== inputValue) {
-      passMatchError.style.display = "block";
-      confirmPassInput.style.border = "1px solid red";
+    if (passwordValue !== inputValue && (inputValue >= 1)) {
+      errorHandler(confirmPassInput, passMatchError);
+    } else if (passwordValue === inputValue) {
+      validHandler(confirmPassInput, passMatchError);
+    };
+    if (inputValue.length < 1 && !submitClicked) {
+      confirmPassInput.style.border = "1px solid #bab8b8";
       confirmPassInput.style.boxShadow = "none";
-    } else {
       passMatchError.style.display = "none";
-      confirmPassInput.style.border = "1px solid green";
-      confirmPassInput.style.boxShadow = "none";
     };
   };
 });
 
-// Ensures form not submitted when confirmed password doesn't match
+// Real-time validation
+confirmPassInput.addEventListener("input", () => {
+  const inputValue = confirmPassInput.value;
+  if (isValid) {
+    if (passwordValue !== inputValue) {
+      errorHandler(confirmPassInput, passMatchError);
+    } else {
+      validHandler(confirmPassInput, passMatchError);
+    };
+  };
+});
+
+// Checks if form is ready to be submitted based on validation
 submitBtn.addEventListener("click", (e) => {
   const inputValue = confirmPassInput.value;
   const firstNameValue = firstName.value;
   const lastNameValue = lastName.value;
   const emailValue = emailInput.value;
-  
-  //Store only numeric values on phone input
-  removeHyphens();
 
   passwordValue = passInput.value;
 
   if (firstLastNamePattern.test(firstNameValue)) {
-    firstName.style.border = "1px solid green";
-    firstName.style.boxShadow = "none";
-    firstNameError.style.display = "none";
+    validHandler(firstName, firstNameError);
   } else {
-    firstName.style.border = "1px solid red";
-    firstName.style.boxShadow = "none";
-    firstNameError.style.display = "block";
-    firstNameError.style.color = "rgb(170, 13, 13)";
+    errorHandler(firstName, firstNameError);
   };
 
   if (firstLastNamePattern.test(lastNameValue)) {
-    lastName.style.border = "1px solid green";
-    lastName.style.boxShadow = "none";
-    lastNameError.style.display = "none";
+    validHandler(lastName, lastNameError);
   } else {
-    lastName.style.border = "1px solid red";
-    lastName.style.boxShadow = "none";
-    lastNameError.style.color = "rgb(170, 13, 13)";
-    lastNameError.style.display = "block";
+    errorHandler(lastName, lastNameError);
   };
 
-  if (emailValue.length < 1) {
-    emailInput.style.border = "1px solid red";
-    emailError.style.display = "block";
-  };
-
-  if (!isValid) {
-    passInput.style.border = "1px solid red";
-    passError.style.display = "block";
-  };
-  
-  if (inputValue.length < 1) {
-    passMatchError.style.display = "block";
-    confirmPassInput.style.border = "1px solid red";
-  };
+  if (emailValue.length < 1) errorHandler(emailInput, emailError);
+  if (!isValid) errorHandler(passInput, passError);
+  if (inputValue.length < 1) errorHandler(confirmPassInput, passMatchError);
 
   if (passwordValue !== inputValue) {
     e.preventDefault();
   };
 
+  allValid();                          // Submit form if all inputs are valid
   e.preventDefault();
 
-   //Shake on 2nd click when errors are visible
+  //Shake on 2nd click when errors are visible
   if (submitClicked) {
     errorMessages.forEach((element) => {
       element.classList.add('shake');
@@ -303,253 +478,42 @@ submitBtn.addEventListener("click", (e) => {
       });
     });
   };
-
   submitClicked = true;
 });
 
-firstName.addEventListener("blur", () => {
+
+
+// Styling for errors
+function errorHandler(input, error) {
+  error.style.display = "block";
+  error.style.color = "rgb(170, 13, 13)";
+  input.style.border = "1px solid red";
+  input.style.boxShadow = "none";
+};
+
+// Styling if no errors
+function validHandler(input, error) {
+  error.style.display = "none";
+  input.style.border = "1px solid green";
+  input.style.boxShadow = "none";
+};
+
+// If all inputs are valid, submit the form 
+function allValid() {
   const firstNameValue = firstName.value;
-
-  if (firstNameValue.length >= 1) {
-    firstNameError.style.display = "none";
-  } else {
-    firstName.style.border = "1px solid #bab8b8";
-    firstNameError.style.display = "none";
-  };
-
-  if (submitClicked) {
-    if (firstLastNamePattern.test(firstNameValue)) {
-      firstName.style.border = "1px solid green";
-      firstName.style.boxShadow = "none";
-      firstNameError.style.display = "none";
-    } else {
-      firstName.style.border = "1px solid red";
-      firstName.style.boxShadow = "none";
-      firstNameError.style.display = "block";
-      firstNameError.style.color = "rgb(170, 13, 13)";
-    };
-  } else {
-    if (!firstLastNamePattern.test(firstNameValue)) {
-      if (firstNameValue.length >= 1) {
-        firstName.style.border = "1px solid red";
-        firstName.style.boxShadow = "none";
-        firstNameError.style.display = "block";
-        firstNameError.style.color = "rgb(170, 13, 13)";
-      };
-    };
-  };
-});
-
-lastName.addEventListener("blur", () => {
   const lastNameValue = lastName.value;
-
-  if (lastNameValue.length >= 1) {
-    lastNameError.style.display = "none";
-  } else {
-    lastName.style.border = "1px solid #bab8b8";
-    lastNameError.style.display = "none";
-  };
-
-  if (submitClicked) {
-    if (firstLastNamePattern.test(lastNameValue)) {
-      lastName.style.border = "1px solid green";
-      lastName.style.boxShadow = "none";
-      lastNameError.style.display = "none";
-    } else {
-      lastName.style.border = "1px solid red";
-      lastName.style.boxShadow = "none";
-      lastNameError.style.color = "rgb(170, 13, 13)";
-      lastNameError.style.display = "block";
-    };
-  } else {
-    if (!firstLastNamePattern.test(lastNameValue)) {
-      if (lastNameValue.length >= 1) {
-        lastName.style.border = "1px solid red";
-        lastName.style.boxShadow = "none";
-        lastNameError.style.color = "rgb(170, 13, 13)";
-        lastNameError.style.display = "block";
-      };
-    };
-  };
-});
-
-firstName.addEventListener("input", () => {
-  const firstNameValue = firstName.value;
-
-  if (submitClicked) {
-    if (firstLastNamePattern.test(firstNameValue)) {
-      firstName.style.border = "1px solid green";
-      firstName.style.boxShadow = "none";
-      firstNameError.style.display = "none";
-    } else {
-      firstName.style.border = "1px solid red";
-      firstName.style.boxShadow = "none";
-      firstNameError.style.display = "block";
-      firstNameError.style.color = "rgb(170, 13, 13)";
-      if (firstNameValue.length === 1 && /^[A-Za-z]+$/.test(firstNameValue)) {
-        firstNameError.textContent = "Must contain at least 2 letters";
-      } else {
-        firstNameError.textContent = "Name contains invalid characters";
-      };
-    };
-  } else {
-    if (firstNameValue.length < 1) {
-      firstName.style.border = "1px solid blue";
-      firstNameError.style.display = "none";
-    } else {
-      if (firstLastNamePattern.test(firstNameValue)) {
-        firstName.style.border = "1px solid green";
-        firstName.style.boxShadow = "none";
-        firstNameError.style.display = "none";
-      } else {
-        firstName.style.border = "1px solid red";
-        firstName.style.boxShadow = "none";
-        firstNameError.style.display = "block";
-        firstNameError.style.color = "rgb(170, 13, 13)";
-      };
-    };
-
-    if (firstNameValue.length === 1 && /^[A-Za-z]+$/.test(firstNameValue)) {
-      firstNameError.textContent = "Must contain at least 2 letters";
-    } else {
-      firstNameError.textContent = "Name contains invalid characters";
-    };
-  };
-});
-
-lastName.addEventListener("input", () => {
-  const lastNameValue = lastName.value;
-
-  if (submitClicked) {
-    if (firstLastNamePattern.test(lastNameValue)) {
-      lastName.style.border = "1px solid green";
-      lastName.style.boxShadow = "none";
-      lastNameError.style.display = "none";
-    } else {
-      lastName.style.border = "1px solid red";
-      lastName.style.boxShadow = "none";
-      lastNameError.style.color = "rgb(170, 13, 13)";
-      lastNameError.style.display = "block";
-      if (lastNameValue.length === 1 && /^[A-Za-z]+$/.test(lastNameValue)) {
-        lastNameError.textContent = "Must contain at least 2 letters";
-      } else {
-        lastNameError.textContent = "Name contains invalid characters";
-      };
-    };
-  } else {
-    if (lastNameValue.length < 1) {
-      lastName.style.border = "1px solid blue";
-      lastNameError.style.display = "none";
-    } else {
-      if (firstLastNamePattern.test(lastNameValue)) {
-        lastName.style.border = "1px solid green";
-        lastName.style.boxShadow = "none";
-        lastNameError.style.display = "none";
-      } else {
-        lastName.style.border = "1px solid red";
-        lastName.style.boxShadow = "none";
-        lastNameError.style.color = "rgb(170, 13, 13)";
-        lastNameError.style.display = "block";
-      };
-    };
-
-    if (lastNameValue.length === 1 && /^[A-Za-z]+$/.test(lastNameValue)) {
-      lastNameError.textContent = "Must contain least 2 letters";
-    } else {
-      lastNameError.textContent = "Name contains invalid characters";
-    };
-  };
-});
-
-
-firstName.addEventListener("focus", () => {
-  const firstNameValue = firstName.value;
-
-  if (submitClicked) {
-    if (firstLastNamePattern.test(firstNameValue)) {
-      firstName.style.border = "1px solid green";
-      firstName.style.boxShadow = "none";
-      firstNameError.style.display = "none";
-    } else {
-      firstName.style.border = "1px solid red";
-      firstName.style.boxShadow = "none";
-      firstNameError.style.display = "block";
-      firstNameError.style.color = "rgb(170, 13, 13)";
-    };
-  } else {
-    if (firstNameValue.length < 1) {
-      firstName.style.border = "1px solid blue";
-    } else {
-      if (firstLastNamePattern.test(firstNameValue)) {
-        firstName.style.border = "1px solid green";
-        firstName.style.boxShadow = "none";
-        firstNameError.style.display = "none";
-      } else {
-        firstName.style.border = "1px solid red";
-        firstName.style.boxShadow = "none";
-        firstNameError.style.display = "block";
-        firstNameError.style.color = "rgb(170, 13, 13)";
-      };
-    };
-  };
-});
-
-lastName.addEventListener("focus", () => {
-  const lastNameValue = lastName.value;
-
-  if (submitClicked) {
-    if (firstLastNamePattern.test(lastNameValue)) {
-      lastName.style.border = "1px solid green";
-      lastName.style.boxShadow = "none";
-      lastNameError.style.display = "none";
-    } else {
-      lastName.style.border = "1px solid red";
-      lastName.style.boxShadow = "none";
-      lastNameError.style.color = "rgb(170, 13, 13)";
-      lastNameError.style.display = "block";
-    };
-  } else {
-    if (lastNameValue.length < 1) {
-      lastName.style.border = "1px solid blue";
-    } else {
-      if (firstLastNamePattern.test(lastNameValue)) {
-        lastName.style.border = "1px solid green";
-        lastName.style.boxShadow = "none";
-        lastNameError.style.display = "none";
-      } else {
-        lastName.style.border = "1px solid red";
-        lastName.style.boxShadow = "none";
-        lastNameError.style.color = "rgb(170, 13, 13)";
-        lastNameError.style.display = "block";
-      };
-    };
-  };
-});
-
-emailInput.addEventListener("input", () => {
   const emailValue = emailInput.value;
+  const inputValue = confirmPassInput.value;
 
-  if (submitClicked) {
-    if (emailRegexPattern.test(emailValue)) {
-      emailInput.style.border = "1px solid green";
-      emailError.style.display = "none";
-    } else {
-      if (emailValue.length >= 1) {
-        emailInput.style.border = "1px solid red";
-        emailError.style.display = "block";
-        emailInput.style.boxShadow = "none";
-      } else {
-        emailInput.style.border = "1px solid red";
-      };
-    };
+  if (isValid 
+  && firstLastNamePattern.test(firstNameValue) 
+  && firstLastNamePattern.test(lastNameValue)
+  && emailRegexPattern.test(emailValue) 
+  && passwordValue === inputValue) {
+    removeHyphens();                  //Store only numeric values for phone input
+    myForm.submit();                  // Submit a form if every input value is valid
   };
-});
-
-emailInput.addEventListener("focus", () => {
-  if (submitClicked) {
-    emailInput.style.boxShadow = "none";
-  };
-});
+};
 
 function resetLabelColors() {
   minLength.style.color = "rgb(31, 2, 59)";
