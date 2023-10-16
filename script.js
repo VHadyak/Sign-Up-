@@ -10,6 +10,7 @@ const emailInput = document.querySelector("#email");
 const firstName = document.querySelector("#first-name");
 const lastName = document.querySelector("#last-name");
 const phoneInput = document.querySelector("#phone-num");
+const togglePassword = document.querySelector("#pass-reveal");
 
 // Error variables
 const firstNameError = document.querySelector(".first-name-error");
@@ -20,6 +21,7 @@ const passMatchError = document.querySelector(".pass-match-error");
 
 // All input error messages (except tel input)
 const errorMessages = document.querySelectorAll(".error-style:not(.password-requirements span):not(.phone-error)");
+const showReq = document.querySelector(".password-requirements");
 
 // Password requirements variables
 const minLength = document.querySelector(".min-length");
@@ -270,6 +272,7 @@ function removeHyphens() {
 // Out of focus state (password input)
 passInput.addEventListener("blur", () => {
   passwordValue = passInput.value;
+  showReq.style.display = "none";     
 
   if (passwordValue.length < 1) {
     passInput.style.border = "1px solid #bab8b8"; 
@@ -280,26 +283,47 @@ passInput.addEventListener("blur", () => {
       oneUpperCase.classList.remove("pass-invalid");
       oneSymbol.classList.remove("pass-invalid");
       oneNum.classList.remove("pass-invalid");
+    } else {
+      isFocused = false;
+      errorHandler(passInput, passError);
+    };
+    if (featureClicked || isFocused) {
+      handleFocus();
+      featureClicked = false;
     };
   } else {
     if (isValid) {
       passError.style.display = "none";
+      if (featureClicked || isFocused) {
+        handleFocus();
+      };
     } else {
       // Show error message, when out of focus and at least one character entered
       passError.style.display = "block";
+      // Permanent focus on pass input if show/hide on toggle 
+      if (featureClicked || isFocused) {
+        handleFocus();
+      };
     };
   };
-
-  if (submitClicked) {
-    if (passwordValue.length < 1) {
-      errorHandler(passInput, passError);
-    }; 
-  };
+  
+  // Remove permanent focus if its clicked outside pass input or hide/show toggle
+  document.body.addEventListener("click", (e) => {
+    if (e.target !== passInput && e.target !== togglePassword) {
+      featureClicked = false;
+      isFocused = false;
+      passInput.blur();
+    } else {
+      isFocused = true;
+    };
+  });
 });     
 
 // In focus state
 passInput.addEventListener("focus", () => {
   passwordValue = passInput.value;
+  showReq.style.display = "flex";
+  
   if (passwordValue.length < 1 && !submitClicked) {
     passInput.style.border = "1px solid blue";
   } else if (passwordValue.length >= 1 || passwordValue.length < 1) {
@@ -318,6 +342,7 @@ passInput.addEventListener("focus", () => {
   if (submitClicked) {
     passError.style.display = "none";
   };
+
   passError.classList.remove('shake');
 });
 
@@ -338,6 +363,7 @@ function validatePassword(element, pattern) {
   };
 };
 
+let isFocused = false;
 passInput.addEventListener("input", () => {
   passwordValue = passInput.value;
   const inputValue = confirmPassInput.value;
@@ -385,6 +411,8 @@ passInput.addEventListener("input", () => {
   validatePassword(oneLowerCase, oneLowerCasePattern);
   validatePassword(oneSymbol, oneSymbolPattern);
   validatePassword(oneNum, oneNumPattern);
+
+  isFocused = true;
 });
 
 confirmPassInput.addEventListener("focus", () => {
@@ -481,7 +509,31 @@ submitBtn.addEventListener("click", (e) => {
   submitClicked = true;
 });
 
+function handleFocus() {
+  passInput.focus(); 
+};
 
+let featureClicked = false;
+// Allow user to see or hide the password entered
+function showHidePassword() {
+  togglePassword.addEventListener("click", () => {         
+    if (passInput.type === "password") {
+      passInput.type = "text";
+      togglePassword.textContent = "Hide"; 
+      showReq.classList.add("password-requirements-focused");
+      passError.classList.add("pass-message-custom");
+    } else {
+      passInput.type = "password";
+      togglePassword.textContent = "Show";
+      showReq.classList.remove("password-requirements-focused")
+      passError.classList.remove("pass-message-custom");
+    };
+
+    handleFocus(); 
+    featureClicked = true;
+  });
+};
+showHidePassword();
 
 // Styling for errors
 function errorHandler(input, error) {

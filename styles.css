@@ -10,8 +10,6 @@
        url("/fonts/proxima-nova-thin.woff2") format("woff2");
 }
 
-/*TODO: Pass requirements need special font size for responsiveness
-
 /* Mobile first approach */
 html { 
   box-sizing: border-box;
@@ -196,20 +194,20 @@ span a[href="#"] {
   font-weight: bold;
 }
 
-/* span a[href="#"]:visited {
-  color: blue;
-} */
+span a[href="#"]:active {
+  color: rgb(25, 43, 26);
+}
 
 /* FORM VALIDATION */
 
 .first-name-error {
-  padding-top: 2px;
+  padding-top: 1px;
   display: none;
   position: absolute;
 }
 
 .last-name-error {
-  padding-top: 2px;
+  padding-top: 1px;
   display: none;
   position: absolute;
 }
@@ -242,7 +240,7 @@ input:not(:required):invalid:focus:not(:placeholder-shown) + span.phone-error {
   position: absolute;
   display: block;
   color: rgb(170, 13, 13);
-  padding-top: 2px; 
+  padding-top: 1px; 
 }
 
 /* Remove automatic highlighter (default) */
@@ -267,7 +265,7 @@ input:valid:not(input[type="password"]):not(input[type="tel"]) {
 /* Default state */
 span.email-error {
   display: none;
-  padding-top: 2px;
+  padding-top: 1px;
   color: rgb(170, 13, 13);
   position: absolute;
 }
@@ -283,15 +281,10 @@ input[type="email"]:invalid:focus:not(:placeholder-shown) + span.email-error {
   position: absolute;             /* Allows for input itself to not be displaced */
   display: block;
   color: rgb(170, 13, 13);
-  padding-top: 2px;                
+  padding-top: 1px;                
 }
 
-/* Make border red when email input has invalid format, at least 1 character, and out of focus */
-input[type="email"]:invalid:not(:placeholder-shown):not(:focus) {
-  border: 1px solid red;
-  box-shadow: none;
-}
-
+input[type="email"]:invalid:not(:placeholder-shown):not(:focus),
 input[type="email"]:invalid:not(:placeholder-shown):focus {
   border: 1px solid red;
   box-shadow: none;
@@ -303,31 +296,19 @@ input[type="email"]:invalid:not(:placeholder-shown):focus {
   position: relative;
 }
 
-span.pass-match-error {
-  display: none;
-  position: absolute;
-}
-
+span.pass-match-error,
 .pass-message {
   display: none;
   position: absolute;
 }
 
-.border-valid {
-  border: 1px solid green;
-  box-shadow: none;
-}
-
-.border-invalid {
-  border: 1px solid red;
-  box-shadow: none;
-}
-
+.border-valid,
 .border-valid:focus {
   border: 1px solid green;
   box-shadow: none;
 }
 
+.border-invalid,
 .border-invalid:focus {
   border: 1px solid red;
   box-shadow: none;
@@ -344,7 +325,7 @@ span.pass-match-error {
 input[type="password"]#confirm-pass:not(:focus) ~ span.pass-match-error,
 input[type="password"]#confirm-pass:focus ~ span.pass-match-error {
   color: rgb(170, 13, 13);
-  padding-top: 2px; 
+  padding-top: 1px; 
 }
 
 .password-disabled {
@@ -357,12 +338,22 @@ input[type="password"]#confirm-pass:focus ~ span.pass-match-error {
 /* Display the requirements when in focus state */
 input[type="password"]#password:focus + .password-requirements {
   display: block;
-  padding-top: 2px;
+  padding-top: 1px;
+}
+
+.password-requirements-focused {
+  display: block;
+  padding-top: 1px;
+}
+
+.pass-message-custom {
+  color: rgb(170, 13, 13);
+  padding-top: 1px;
 }
 
 input[type="password"]#password:not(:focus) ~ span.pass-message {
   color: rgb(170, 13, 13);
-  padding-top: 2px;
+  padding-top: 1px;
 }
 
 .col-1,
@@ -541,6 +532,18 @@ input:-webkit-autofill:active {
     position: absolute;
   }
 
+  #password {
+    padding-right: 60px;
+  }
+
+  .toggle-password {
+    color:rgba(4, 27, 31, 0.709);
+    cursor: pointer;
+    position: absolute;
+    left: 30%;
+    bottom: -37%;
+  }
+
   .col-1,
   .col-2 {
     display: flex;
@@ -549,22 +552,16 @@ input:-webkit-autofill:active {
     row-gap: 5px;
   }
 
-  /* (email) */
   input[type="email"]:invalid:not(:focus):not(:placeholder-shown) + span.email-error,
-  input[type="email"]:invalid:focus:not(:placeholder-shown) + span.email-error {
+  input[type="email"]:invalid:focus:not(:placeholder-shown) + span.email-error,
+  input:not(:required):invalid:focus:not(:placeholder-shown) + span.phone-error,
+  input[type="password"]#password:not(:focus) ~ span.pass-message,
+  input[type="password"]#confirm-pass:focus ~ span.pass-match-error, 
+  input[type="password"]#confirm-pass:not(:focus) ~ span.pass-match-error,
+  .first-name-error,
+  .last-name-error {
     padding-top: 3px;                
   }
-
-  /* (phone number) */
-  input:not(:required):invalid:focus:not(:placeholder-shown) + span.phone-error {
-    padding-top: 3px; 
-  }
-
-  /* (password) */
-  input[type="password"]#password:not(:focus) ~ span.pass-message {
-    padding-top: 3px;
-  }
-
    /* Display the requirements when in focus state */
    input[type="password"]#password:focus + .password-requirements {
     padding-top: 5px;
@@ -574,12 +571,19 @@ input:-webkit-autofill:active {
     height: 70px;
   }
 
-  /* (confirm password) */
-  input[type="password"]#confirm-pass:focus ~ span.pass-match-error, 
-  input[type="password"]#confirm-pass:not(:focus) ~ span.pass-match-error {
+  /* For JS */
+  .password-requirements-focused {
+    padding-top: 5px;
+    display: flex;
+    flex-direction: row;
+    column-gap: 25px;
+    height: 70px;
+  }
+
+  .pass-message-custom {
     padding-top: 3px;
-  } 
-  
+  }
+
   .col-1 .pass-valid::after,
   .col-2 .pass-valid::after {
     content: "\2713";
