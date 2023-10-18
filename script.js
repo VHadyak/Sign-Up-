@@ -287,21 +287,21 @@ passInput.addEventListener("blur", () => {
       isFocused = false;
       errorHandler(passInput, passError);
     };
-    if (featureClicked || isFocused) {
+    if (toggleClicked || isFocused) {
       handleFocus();
-      featureClicked = false;
+      toggleClicked = false;
     };
   } else {
     if (isValid) {
       passError.style.display = "none";
-      if (featureClicked || isFocused) {
+      if (toggleClicked || isFocused) {
         handleFocus();
       };
     } else {
       // Show error message, when out of focus and at least one character entered
       passError.style.display = "block";
       // Permanent focus on pass input if show/hide on toggle 
-      if (featureClicked || isFocused) {
+      if (toggleClicked || isFocused) {
         handleFocus();
       };
     };
@@ -310,7 +310,7 @@ passInput.addEventListener("blur", () => {
   // Remove permanent focus if its clicked outside pass input or hide/show toggle
   document.body.addEventListener("click", (e) => {
     if (e.target !== passInput && e.target !== togglePassword) {
-      featureClicked = false;
+      toggleClicked = false;
       isFocused = false;
       passInput.blur();
     } else {
@@ -322,8 +322,8 @@ passInput.addEventListener("blur", () => {
 // In focus state
 passInput.addEventListener("focus", () => {
   passwordValue = passInput.value;
-  showReq.style.display = "flex";
-  
+  showReq.style.display = "";     
+
   if (passwordValue.length < 1 && !submitClicked) {
     passInput.style.border = "1px solid blue";
   } else if (passwordValue.length >= 1 || passwordValue.length < 1) {
@@ -513,7 +513,7 @@ function handleFocus() {
   passInput.focus(); 
 };
 
-let featureClicked = false;
+let toggleClicked = false;
 // Allow user to see or hide the password entered
 function showHidePassword() {
   togglePassword.addEventListener("click", () => {         
@@ -525,12 +525,12 @@ function showHidePassword() {
     } else {
       passInput.type = "password";
       togglePassword.textContent = "Show";
-      showReq.classList.remove("password-requirements-focused")
+      showReq.classList.remove("password-requirements-focused");
       passError.classList.remove("pass-message-custom");
     };
 
     handleFocus(); 
-    featureClicked = true;
+    toggleClicked = true;
   });
 };
 showHidePassword();

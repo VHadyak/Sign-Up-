@@ -133,6 +133,13 @@ form div.inputs > div > label {
   color: rgb(10, 64, 73);
 }
 
+.label-container > label {
+  margin-bottom: 2px;
+  font-weight: bolder;
+  font-size: clamp(0.9rem, 1.3vw, 1.2rem);
+  color: rgb(10, 64, 73);
+}
+
 /* "Optional" label for phone number input */
 form .inputs > div > label > span {
   color: rgba(10, 62, 73, 0.731);
@@ -145,7 +152,7 @@ input {
   width: 100%;
   padding: 5px;
   border: 1px solid #bab8b8;
-  border-radius: 4px;
+  border-radius: 0.5rem;
   outline: none;
   font-family: "CustomFormFont", sans-serif;
   font-size: clamp(0.8rem, 1.3vw, 1.1rem);
@@ -156,6 +163,27 @@ input::placeholder {
   color: #bbbaba;
 }
 
+.label-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.toggle-password {
+  color:rgba(112, 114, 114, 0.99);
+  cursor: pointer;
+  font-size: clamp(0.65rem, 1.3vw, 1rem);
+  padding: 0 3px 0 3px;
+  border: 1px solid rgba(146, 144, 144, 0.59);
+  border-radius: 1rem;
+  align-self: center;
+}
+
+.toggle-password:hover {
+  transform: scale(1.1);
+  background-color: #dae6e3;
+}
+
 button[type="submit"] {
   background-color: rgba(227, 229, 224, 0.997);
   border: 1px solid rgba(0, 0, 0, 0.234);
@@ -163,7 +191,7 @@ button[type="submit"] {
   width: 100%;
   font-size: clamp(1rem, 1.3vw, 1.4rem);
   font-weight: bolder;
-  border-radius: 4px;
+  border-radius: 0.5rem;
   height: 40px;
   margin-top: 30px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.25);
@@ -500,13 +528,18 @@ input:-webkit-autofill:active {
   input {
     width: min(18vw, 400px);
     height: min(4vh, 40px);
-    border-radius: 6px;
+    border-radius: 0.6rem;
   } 
+
+  .toggle-password {
+    padding: 0 7px 0 7px;
+    margin-bottom: 1px;
+  }
 
   button[type="submit"] {
     width: calc(9vw + 80px);
     height: 55px;
-    border-radius: 6px;
+    border-radius: 0.6rem;
     text-align: center;
   }
 
@@ -532,18 +565,6 @@ input:-webkit-autofill:active {
     position: absolute;
   }
 
-  #password {
-    padding-right: 60px;
-  }
-
-  .toggle-password {
-    color:rgba(4, 27, 31, 0.709);
-    cursor: pointer;
-    position: absolute;
-    left: 30%;
-    bottom: -37%;
-  }
-
   .col-1,
   .col-2 {
     display: flex;
@@ -562,8 +583,9 @@ input:-webkit-autofill:active {
   .last-name-error {
     padding-top: 3px;                
   }
-   /* Display the requirements when in focus state */
-   input[type="password"]#password:focus + .password-requirements {
+
+  /* Display the requirements when in focus state */
+  input[type="password"]#password:focus + .password-requirements {
     padding-top: 5px;
     display: flex;
     flex-direction: row;

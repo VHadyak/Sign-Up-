@@ -41,7 +41,10 @@
           <span class="phone-error error-style">Please enter a 10-digit phone number</span>
         </div>
         <div class="pass-section">
-          <label for="password">Password</label>
+          <div class="label-container">
+            <label for="password">Password</label>
+            <span id="pass-reveal" class="toggle-password">Show</span>
+          </div>
           <input type="password" id="password" name="password" required>
           <div class="password-requirements">
             <div class="col-1">
@@ -55,7 +58,6 @@
             </div>
           </div>
           <span class ="pass-error error-style pass-message">Meet all password requirements</span> 
-          <span id="pass-reveal" class="toggle-password">Show</span>
         </div>
         <div>
           <label for="confirm-pass">Confirm Password</label>
