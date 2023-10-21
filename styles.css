@@ -1,13 +1,13 @@
 @font-face {
   font-family: "CustomLogoFont";
-  src: url("/fonts/proxima-nova-5.woff") format("woff"),
-       url("/fonts/proxima-nova-5.woff2") format("woff2");
+  src: url("fonts/proxima-nova-5.woff") format("woff"),
+       url("fonts/proxima-nova-5.woff2") format("woff2");
 }
 
 @font-face {
   font-family: "CustomFormFont";
-  src: url("/fonts/proxima-nova-thin.woff") format("woff"),
-       url("/fonts/proxima-nova-thin.woff2") format("woff2");
+  src: url("fonts/proxima-nova-thin.woff") format("woff"),
+       url("fonts/proxima-nova-thin.woff2") format("woff2");
 }
 
 /* Mobile first approach */
@@ -38,7 +38,7 @@ body {
 /* Hero */
 .logo-section {
   position: relative;
-  background-image: url("/img/modern-art.jpg");
+  background-image: url("img/modern-art.jpg");
   background-size: cover;
   width: auto;
   height: 30vh;
@@ -71,7 +71,7 @@ body {
 /* Logo */
 div.logo {
   position: static;
-  background-image: url("/img/logo.png");
+  background-image: url("img/logo.png");
   background-size: contain;
   background-repeat: no-repeat;
   width: clamp(50px, 5vw, 100px);
