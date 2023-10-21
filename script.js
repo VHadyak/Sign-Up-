@@ -114,6 +114,7 @@ firstName.addEventListener("input", () => {
   } else {
     if (firstNameValue.length < 1) {
       firstName.style.border = "1px solid blue";
+      firstName.style.boxShadow = "";
       firstNameError.style.display = "none";
     } else {
       if (firstLastNamePattern.test(firstNameValue)) {
@@ -149,6 +150,7 @@ lastName.addEventListener("input", () => {
     if (lastNameValue.length < 1) {
       lastName.style.border = "1px solid blue";
       lastNameError.style.display = "none";
+      lastName.style.boxShadow = "";
     } else {
       if (firstLastNamePattern.test(lastNameValue)) {
         validHandler(lastName, lastNameError);
@@ -269,27 +271,40 @@ function removeHyphens() {
   phoneInput.value = numericValue;
 };
 
+function resetStyling() {
+  resetLabelColors();
+  minLength.classList.remove("pass-invalid");
+  oneLowerCase.classList.remove("pass-invalid");
+  oneUpperCase.classList.remove("pass-invalid");
+  oneSymbol.classList.remove("pass-invalid");
+  oneNum.classList.remove("pass-invalid");
+};
+
 // Out of focus state (password input)
 passInput.addEventListener("blur", () => {
   passwordValue = passInput.value;
   showReq.style.display = "none";     
-
+  
   if (passwordValue.length < 1) {
-    passInput.style.border = "1px solid #bab8b8"; 
     if (!submitClicked) {
-      resetLabelColors();
-      minLength.classList.remove("pass-invalid");
-      oneLowerCase.classList.remove("pass-invalid");
-      oneUpperCase.classList.remove("pass-invalid");
-      oneSymbol.classList.remove("pass-invalid");
-      oneNum.classList.remove("pass-invalid");
+      if (toggleClicked || isFocused || focusState) {         
+        toggleClicked = false;
+        isFocused = false;
+        focusState = false;
+        handleFocus();
+      } else {
+        passInput.style.border = "1px solid #bab8b8"; 
+        passInput.style.boxShadow = "none";
+      };
+      resetStyling();
     } else {
-      isFocused = false;
       errorHandler(passInput, passError);
-    };
-    if (toggleClicked || isFocused) {
-      handleFocus();
-      toggleClicked = false;
+      if (toggleClicked || isFocused || focusState) {       
+        isFocused = false;
+        toggleClicked = false;
+        focusState = false;
+        handleFocus();
+      };
     };
   } else {
     if (isValid) {
@@ -303,29 +318,62 @@ passInput.addEventListener("blur", () => {
       // Permanent focus on pass input if show/hide on toggle 
       if (toggleClicked || isFocused) {
         handleFocus();
-      };
+      };  
     };
   };
-  
-  // Remove permanent focus if its clicked outside pass input or hide/show toggle
-  document.body.addEventListener("click", (e) => {
+
+  if (passwordValue.length < 1 && !submitClicked) {
+    passMatchError.style.display = "none";
+    confirmPassInput.style.border = "";
+    confirmPassInput.value = "";
+  };
+
+   // Remove permanent focus if its clicked outside pass input or hide/show toggle
+   document.body.addEventListener("click", (e) => {
     if (e.target !== passInput && e.target !== togglePassword) {
+      focusState = false;
       toggleClicked = false;
       isFocused = false;
+      // Focus on selected input with ONE click, if the focus is still on password input 
+      if (e.target === confirmPassInput) {
+        confirmPassInput.focus();
+        isFocused = false;
+      } else if (e.target === phoneInput) {
+        phoneInput.focus();
+        isFocused = false;
+      } else if (e.target === emailInput) {
+        emailInput.focus();
+        isFocused = false;
+      } else if (e.target === firstName) {
+        firstName.focus();
+        isFocused = false;
+      } else if (e.target === lastName) {
+        lastName.focus();
+        isFocused = false;
+      };
       passInput.blur();
     } else {
       isFocused = true;
     };
   });
+
+  //if (passwordValue.length < 1) {
+    //showReq.style.display = "none";
+    //passInput.style.border = "1px solid #bab8b8"; 
+    //passInput.style.boxShadow = "none";
+  //};
+
 });     
 
+let focusState = false;
 // In focus state
 passInput.addEventListener("focus", () => {
   passwordValue = passInput.value;
-  showReq.style.display = "";     
+  showReq.style.display = "";   
 
   if (passwordValue.length < 1 && !submitClicked) {
     passInput.style.border = "1px solid blue";
+    passInput.style.boxShadow = "0 0 4px rgba(0, 123, 255, 0.5)";
   } else if (passwordValue.length >= 1 || passwordValue.length < 1) {
     passError.style.display = "none";
   };
@@ -343,6 +391,8 @@ passInput.addEventListener("focus", () => {
     passError.style.display = "none";
   };
 
+  focusState = true;
+
   passError.classList.remove('shake');
 });
 
@@ -352,13 +402,13 @@ function validatePassword(element, pattern) {
     element.classList.add("pass-valid");
     element.classList.remove("pass-invalid");
     if (passwordValue.length >= 1) {
-      element.style.color = "green";
+      element.style.color = "rgb(32, 129, 10)";
     };
   } else {
     element.classList.add("pass-invalid");
     element.classList.remove("pass-valid");
     if (passwordValue.length >= 1 || passwordValue.length < 1) {
-      element.style.color = "red";
+      element.style.color = "rgb(210, 9, 9)";
     };
   };
 };
@@ -390,6 +440,7 @@ passInput.addEventListener("input", () => {
     isValid = false;
     if (passwordValue.length >= 1) {
       confirmPassInput.classList.add("password-disabled");
+      passInput.style.boxShadow = "none";
     };
     confirmPassInput.disabled = true;
   };
@@ -430,6 +481,7 @@ confirmPassInput.addEventListener("focus", () => {
 
   if (inputValue.length < 1 && !submitClicked && isValid) {
     confirmPassInput.style.border = "1px solid blue";
+    confirmPassInput.style.boxShadow = "";
   };
 
   passMatchError.classList.remove('shake');
@@ -517,6 +569,7 @@ let toggleClicked = false;
 // Allow user to see or hide the password entered
 function showHidePassword() {
   togglePassword.addEventListener("click", () => {         
+
     if (passInput.type === "password") {
       passInput.type = "text";
       togglePassword.textContent = "Hide"; 
@@ -530,6 +583,7 @@ function showHidePassword() {
     };
 
     handleFocus(); 
+
     toggleClicked = true;
   });
 };
@@ -538,7 +592,7 @@ showHidePassword();
 // Styling for errors
 function errorHandler(input, error) {
   error.style.display = "block";
-  error.style.color = "rgb(170, 13, 13)";
+  error.style.color = "rgb(210, 9, 9)";
   input.style.border = "1px solid red";
   input.style.boxShadow = "none";
 };

@@ -170,23 +170,23 @@ input::placeholder {
 }
 
 .toggle-password {
-  color:rgba(112, 114, 114, 0.99);
+  color: rgba(10, 62, 73, 0.731);
   cursor: pointer;
   font-size: clamp(0.65rem, 1.3vw, 1rem);
   padding: 0 3px 0 3px;
-  border: 1px solid rgba(146, 144, 144, 0.59);
+  border: 1px solid rgba(165, 167, 167, 0.716);
   border-radius: 1rem;
   align-self: center;
 }
 
 .toggle-password:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
   background-color: #dae6e3;
 }
 
 button[type="submit"] {
-  background-color: rgba(227, 229, 224, 0.997);
-  border: 1px solid rgba(0, 0, 0, 0.234);
+  background-color: rgb(225, 239, 237);
+  border: 1px solid rgba(0, 0, 0, 0.251);
   font-family: "CustomFormFont", sans-serif;
   width: 100%;
   font-size: clamp(1rem, 1.3vw, 1.4rem);
@@ -194,7 +194,7 @@ button[type="submit"] {
   border-radius: 0.5rem;
   height: 40px;
   margin-top: 30px;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.15);
   cursor: pointer;
   padding: 0 20px;
   outline: none;
@@ -202,11 +202,11 @@ button[type="submit"] {
 }
 
 button[type=submit]:hover {
-  background-color: rgba(223, 231, 207, 0.997);
+  background-color: rgb(206, 241, 231);
 }
 
 button[type=submit]:active {
-  background-color: rgba(230, 238, 196, 0.997);
+  background-color: rgb(152, 246, 219);
 }
 
 /* "Log in" section */
@@ -231,13 +231,13 @@ span a[href="#"]:active {
 .first-name-error {
   padding-top: 1px;
   display: none;
-  position: absolute;
+  position: absolute;   
 }
 
 .last-name-error {
   padding-top: 1px;
   display: none;
-  position: absolute;
+  position: absolute;  
 }
 
 /* Phone number error style */
@@ -267,8 +267,8 @@ input:not(:required):invalid:focus:not(:placeholder-shown) {
 input:not(:required):invalid:focus:not(:placeholder-shown) + span.phone-error {
   position: absolute;
   display: block;
-  color: rgb(170, 13, 13);
-  padding-top: 1px; 
+  color: rgb(210, 9, 9);
+  padding-top: 1px;    
 }
 
 /* Remove automatic highlighter (default) */
@@ -308,8 +308,8 @@ input[type="email"]:invalid:not(:focus):not(:placeholder-shown) + span.email-err
 input[type="email"]:invalid:focus:not(:placeholder-shown) + span.email-error {
   position: absolute;             /* Allows for input itself to not be displaced */
   display: block;
-  color: rgb(170, 13, 13);
-  padding-top: 1px;                
+  color: rgb(210, 9, 9);
+  padding-top: 1px;              
 }
 
 input[type="email"]:invalid:not(:placeholder-shown):not(:focus),
@@ -352,8 +352,8 @@ span.pass-match-error,
 
 input[type="password"]#confirm-pass:not(:focus) ~ span.pass-match-error,
 input[type="password"]#confirm-pass:focus ~ span.pass-match-error {
-  color: rgb(170, 13, 13);
-  padding-top: 1px; 
+  color: rgb(210, 9, 9);
+  padding-top: 1px;   
 }
 
 .password-disabled {
@@ -367,21 +367,25 @@ input[type="password"]#confirm-pass:focus ~ span.pass-match-error {
 input[type="password"]#password:focus + .password-requirements {
   display: block;
   padding-top: 1px;
+  font-weight: bold;
 }
 
 .password-requirements-focused {
   display: block;
   padding-top: 1px;
+  color: rgb(210, 9, 9);
+  font-weight: bold;
 }
 
 .pass-message-custom {
-  color: rgb(170, 13, 13);
+  color: rgb(210, 9, 9);
   padding-top: 1px;
+  font-weight: bold;
 }
 
 input[type="password"]#password:not(:focus) ~ span.pass-message {
-  color: rgb(170, 13, 13);
-  padding-top: 1px;
+  color: rgb(210, 9, 9);
+  padding-top: 1px;   
 }
 
 .col-1,
@@ -419,6 +423,15 @@ input[type="password"]#password:not(:focus) ~ span.pass-message {
 
   transition: transform 0.2s;
   transform-origin: center;
+}
+
+.first-name-error,
+.last-name-error,
+.email-error,
+.phone-error,
+.pass-message,
+.pass-match-error {
+  font-weight: bold;
 }
 
 /* On Chrome prevent the background color change on auto-fill */
@@ -463,8 +476,9 @@ input:-webkit-autofill:active {
     justify-content: center;
     align-items: center;
     gap: 10px;
-    padding: 0 10px 0 10px;
+    padding: 10px 10px 10px 10px;
     padding-right: 20px;
+    margin-top: 50px;
   }
 
   div.logo {
@@ -533,7 +547,7 @@ input:-webkit-autofill:active {
 
   .toggle-password {
     padding: 0 7px 0 7px;
-    margin-bottom: 1px;
+    align-self: baseline;
   }
 
   button[type="submit"] {
@@ -541,6 +555,7 @@ input:-webkit-autofill:active {
     height: 55px;
     border-radius: 0.6rem;
     text-align: center;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.25);
   }
 
   /* Submit button */
