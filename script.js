@@ -160,7 +160,7 @@ lastName.addEventListener("input", () => {
     };
 
     if (lastNameValue.length === 1 && /^[A-Za-z]+$/.test(lastNameValue)) {
-      lastNameError.textContent = "Must contain least 2 letters";
+      lastNameError.textContent = "Must contain at least 2 letters";
     } else {
       lastNameError.textContent = "Name contains invalid characters";
     };

@@ -157,6 +157,7 @@ input {
   font-family: "CustomFormFont", sans-serif;
   font-size: clamp(0.8rem, 1.3vw, 1.1rem);
   touch-action: manipulation;
+  font-weight: bolder;
 }
 
 input::placeholder {
@@ -186,6 +187,7 @@ input::placeholder {
 
 button[type="submit"] {
   background-color: rgb(225, 239, 237);
+  color: rgb(59, 58, 59);
   border: 1px solid rgba(0, 0, 0, 0.251);
   font-family: "CustomFormFont", sans-serif;
   width: 100%;
@@ -367,20 +369,20 @@ input[type="password"]#confirm-pass:focus ~ span.pass-match-error {
 input[type="password"]#password:focus + .password-requirements {
   display: block;
   padding-top: 1px;
-  font-weight: bold;
+  font-weight: initial;
 }
 
 .password-requirements-focused {
   display: block;
   padding-top: 1px;
   color: rgb(210, 9, 9);
-  font-weight: bold;
+  font-weight: initial;
 }
 
 .pass-message-custom {
   color: rgb(210, 9, 9);
   padding-top: 1px;
-  font-weight: bold;
+  font-weight: initial;
 }
 
 input[type="password"]#password:not(:focus) ~ span.pass-message {
@@ -431,7 +433,7 @@ input[type="password"]#password:not(:focus) ~ span.pass-message {
 .phone-error,
 .pass-message,
 .pass-match-error {
-  font-weight: bold;
+  font-weight: initial;
 }
 
 /* On Chrome prevent the background color change on auto-fill */
@@ -543,6 +545,7 @@ input:-webkit-autofill:active {
     width: min(18vw, 400px);
     height: min(4vh, 40px);
     border-radius: 0.6rem;
+    font-weight: initial;
   } 
 
   .toggle-password {
@@ -606,6 +609,7 @@ input:-webkit-autofill:active {
     flex-direction: row;
     column-gap: 25px;
     height: 70px;
+    font-weight: bold;
   }
 
   /* For JS */
@@ -615,10 +619,12 @@ input:-webkit-autofill:active {
     flex-direction: row;
     column-gap: 25px;
     height: 70px;
+    font-weight: bold;
   }
 
   .pass-message-custom {
     padding-top: 3px;
+    font-weight: bold;
   }
 
   .col-1 .pass-valid::after,
@@ -637,6 +643,15 @@ input:-webkit-autofill:active {
     position: relative;
     left: 4px;
     bottom: 0;
+  }
+
+  .first-name-error,
+  .last-name-error,
+  .email-error,
+  .phone-error,
+  .pass-message,
+  .pass-match-error {
+    font-weight: bold;
   }
 
   @keyframes shake {
